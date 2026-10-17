@@ -1,5 +1,7 @@
 # cutroom
 
+![cutroom — Your footage. Your style.](assets/banner.png)
+
 **Turn Claude Code and Codex into your video editor.** Drop in raw clips and say "edit these". cutroom transcribes
 them, cuts the dead ends and long pauses, cleans your voice, and adds captions, motion graphics, punch-ins and sound
 effects in **your** style. It renders a ready-to-post MP4.
