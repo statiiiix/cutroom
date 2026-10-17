@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+case "${1:-}" in
+  styles)
+    shift
+    PY="${CUTROOM_HOME:-$HOME/.cutroom}/venv/bin/python"
+    [ -x "$PY" ] || PY=python3
+    exec "$PY" "$HERE/styles.py" "$@"
+    ;;
+  build|status)
+    COMMAND=$1
+    shift
+    [ "$COMMAND" = status ] && set -- --status "$@"
+    PY="${CUTROOM_HOME:-$HOME/.cutroom}/venv/bin/python"
+    [ -x "$PY" ] || PY=python3
+    exec "$PY" "$HERE/build.py" "$@"
+    ;;
+  *) exec python3 "$HERE/manage.py" "$@" ;;
+esac
