@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+# test projects and renders made while developing
+videos/
+*-workspace/
+refs/

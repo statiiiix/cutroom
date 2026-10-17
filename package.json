@@ -1,0 +1,10 @@
+{
+  "name": "cutroom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "cutroom: a video-editing skill for Claude Code and Codex (transcribe, cut, caption, motion graphics, sound, render).",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "1.52.0"
+  }
+}
