@@ -12,6 +12,8 @@ Retakes, false starts and flubbed lines aren't detected automatically: read the 
 segments in cuts.json by hand and run --remap.
 """
 import argparse, json, os, re, subprocess
+from pathlib import Path
+from build import atomic_json, digest
 
 
 def duration(path):
@@ -72,6 +74,7 @@ if __name__ == '__main__':
     words, joins, total = remap(segs, a.transcripts, fps)
     json.dump({'fps': fps, 'segments': segs, 'joins': joins, 'duration': total}, open(os.path.join(a.out, 'cuts.json'), 'w'), indent=1)
     json.dump(words, open(os.path.join(a.out, 'words.json'), 'w'))
+    atomic_json(Path(a.out) / '.words-timeline.json', {'segments': digest(segs)})
     src = sum(duration(c) for c in dict.fromkeys(s['clip'] for s in segs))
     print(f'{len(segs)} segments  {src:.2f} s of source → {total:.2f} s  (removed {src - total:.2f} s)')
     for s in segs: print(f"  {os.path.basename(s['clip'])}  {s['start']:7.3f} → {s['end']:7.3f}  ({s['end'] - s['start']:.2f} s)")

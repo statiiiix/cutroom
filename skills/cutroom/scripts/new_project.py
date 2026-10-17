@@ -20,7 +20,7 @@ S = settings(os.path.expanduser(a.profile))
 for d in ('src', 'film', 'assets/fonts', 'assets/brand', 'assets/foot', 'edit', 'audio', 'renders', 'review', 'transcripts'):
     os.makedirs(os.path.join(a.dir, d), exist_ok=True)
 for c in a.clips: shutil.copy2(c, os.path.join(a.dir, 'src', os.path.basename(c)))
-for f in ('runtime.js', 'index.html'): shutil.copy(os.path.join(SKILL, 'engine', f), os.path.join(a.dir, 'film', f))
+for f in ('runtime.js', 'layouts.js', 'components.js', 'index.html'): shutil.copy(os.path.join(SKILL, 'engine', f), os.path.join(a.dir, 'film', f))
 shutil.copy(os.path.join(SKILL, 'engine', 'film.template.js'), os.path.join(a.dir, 'film', 'film.js'))
 
 fonts = S.get('fonts', {}); written = {}

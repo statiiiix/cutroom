@@ -8,7 +8,7 @@ description: Edit videos end to end in the user's own style. Takes raw clips (ta
 You are the user's video editor. You edit their footage to **their** taste, which lives in a style profile. Every
 video goes through the same loop: profile → intake → transcript → cut → plan → build → review → render → learn.
 
-`$SKILL` is this skill's folder. `$PY` is `~/.cutroom/venv/bin/python`. Run scripts as `$PY $SKILL/scripts/x.py` and
+`$SKILL` is this skill's folder. `$PY` is `${CUTROOM_HOME:-$HOME/.cutroom}/venv/bin/python`. Run scripts as `$PY $SKILL/scripts/x.py` and
 `node $SKILL/scripts/render.mjs`. They work the same in Claude Code and Codex.
 
 **How to ask questions.** Use your structured question tool if you have one (AskUserQuestion in Claude Code), with
@@ -21,8 +21,9 @@ something the profile already answers.
 ```
 sh $SKILL/scripts/doctor.sh
 ```
-If it says NOT READY, tell the user what's missing and offer to run the installer (`sh install.sh` from the cutroom
-repo, or the single fix it prints). The installer downloads about 2 GB the first time (the Whisper model and
+If it says NOT READY, tell the user what's missing and offer to run the bundled setup (`python3 $SKILL/scripts/manage.py repair`,
+or the single fix it prints). Setup works from the installed skill without the original repo. Read
+[references/setup.md](references/setup.md) for installation, updates, repair and removal. The installer downloads about 2 GB the first time (the Whisper model and
 Chromium), so ask before running it.
 
 ## 1. Style profile: grill once, then remember
@@ -76,7 +77,7 @@ retakes, flubs, a weak opening line, fillers, and a call to action that trails o
 for those, re-run with `--remap edit/cuts.json`, and apply the user's confirmed script fixes to `edit/words.json`.
 Then:
 ```
-$PY $SKILL/scripts/cut.py --voice <sound.voice>        # frames, preview cut, raw + cleaned voice, project.json
+$PY $SKILL/scripts/build.py --to cut        # frames, preview cut, raw + cleaned voice, project.json
 ```
 Tell the user the before → after length and what was removed, in one line.
 
@@ -91,6 +92,11 @@ row per beat with the time range, the words spoken, what appears on screen, and 
 - products get their own colours and logos (`graphics.productColors`)
 - the user's accent stays the one accent everywhere else
 
+Choose a composition from [references/layouts.md](references/layouts.md) for the output format and footage type.
+Read the [component guide](references/components.md) and inspect the bundled [visual gallery](examples/gallery/README.md)
+before inventing a graphic already covered there. Components inherit the profile; adapt the content and composition
+to the shotlist rather than copying the gallery's palette or timing.
+
 If the profile says `approveShotlist: true`, send a compact numbered summary and wait for an OK. Otherwise build
 straight away and mention the plan in one line.
 
@@ -101,7 +107,7 @@ camera, one `scene()` per beat, captions last. The engine API and motion rules a
 [references/graphics.md](references/graphics.md). Put every sound in `project.json` → `sfx` (types are in
 `sfx.py`; use only the types the profile allows). Then:
 ```
-$PY $SKILL/scripts/sync.py && $PY $SKILL/scripts/sfx.py && $PY $SKILL/scripts/mix.py
+$PY $SKILL/scripts/build.py --to mix
 node $SKILL/scripts/render.mjs --project . --sheet           # LOOK at review/sheet.jpg
 node $SKILL/scripts/render.mjs --project . --at 3.2,7.9      # stills of moments you're unsure about
 node $SKILL/scripts/render.mjs --project . --verify          # once: determinism
@@ -114,19 +120,20 @@ size, motion, variety and pacing, brand and profile match, and sound. Fix the 3 
 with stills. Run `workflow.reviewRounds` rounds (default 2). Ship once every score is about 8; don't chase the last
 point, because the user's time matters more. Then:
 ```
-node $SKILL/scripts/render.mjs --project . --draft && $PY $SKILL/scripts/review.py renders/draft.mp4
+$PY $SKILL/scripts/build.py --draft && $PY $SKILL/scripts/review.py renders/draft.mp4
 ```
 LOOK at `review/draft_safe.jpg`: nothing important may sit in the red platform-UI zones.
 
 ## 8. Final render and delivery
 
 ```
-node $SKILL/scripts/render.mjs --project .            # project fps (30 default: fast). --fps 60 only if the profile asks
+$PY $SKILL/scripts/build.py                         # project fps (30 default: fast); use the profile's fps
 $PY $SKILL/scripts/review.py renders/final.mp4
 ```
 Before you start, tell the user roughly how long the render takes (about 4–10 s of wall time per second of video at
 30 fps). Deliver `renders/final.mp4` with its length, loudness and one line on what you'd still improve.
-Sound-only changes need no re-render: `sfx.py && mix.py && render.mjs --mux`.
+For revisions, use the same build command: unchanged stages are skipped and sound-only changes reuse the picture.
+Read [references/build.md](references/build.md) for status, resuming, cut revisions and the manual renderer commands.
 
 ## 9. Learn (the step that makes cutroom theirs)
 

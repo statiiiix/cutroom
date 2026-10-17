@@ -28,30 +28,44 @@ next video starts closer to right.
 
 ## Install
 
-You need macOS or Linux (Windows: use WSL). The installer adds whatever's missing.
+Use macOS 13+ or Linux (Windows: use WSL), Python 3.10–3.13, Node.js 20/22/24 with npm,
+and FFmpeg 6+ with H.264/AAC support. Setup checks your machine and installs the private editing runtime.
 
 ```bash
-git clone https://github.com/<you>/cutroom.git
+git clone https://github.com/statiiiix/cutroom.git
 cd cutroom
 sh install.sh
 ```
 
+Add `--install-system-tools` to install missing prerequisites with Homebrew or apt.
+
 It installs:
-- ffmpeg, Node and Python (via Homebrew or apt, only if missing)
-- a private Python env at `~/.cutroom/venv` with faster-whisper, numpy and yt-dlp
+- a private Python env at `~/.cutroom/venv` with an exact dependency set for faster-whisper, numpy and yt-dlp
 - the Whisper large-v3-turbo model (about 1.6 GB, once)
-- Playwright + headless Chromium at `~/.cutroom/node` (renders the graphics)
-- the skill for **Claude Code** (`~/.claude/skills/cutroom`) and **Codex** (`~/.codex/skills/cutroom`, plus a one-line
-  pointer in `~/.codex/AGENTS.md`)
+- locked Playwright packages at `~/.cutroom/node` and matching headless Chromium at `~/.cutroom/browsers`
+- the self-contained skill for **Claude Code** (`~/.claude/skills/cutroom`) and **Codex** (`~/.codex/skills/cutroom`)
 
 Options: `--claude` or `--codex` (one agent only), `--project <dir>` (one project only), `--no-model` (download Whisper
-on first use instead).
+on first use instead). On Linux, `--with-system-deps` installs Chromium's required system libraries.
+Preview the installation without changing anything with `sh install.sh --dry-run`.
 
 Check your setup any time:
 
 ```bash
-sh ~/.claude/skills/cutroom/scripts/doctor.sh
+sh ~/.codex/skills/cutroom/scripts/cutroom doctor
 ```
+
+An installed skill carries its own setup tools; the original checkout is not needed for maintenance:
+
+```sh
+sh ~/.codex/skills/cutroom/scripts/cutroom version
+sh ~/.codex/skills/cutroom/scripts/cutroom update --no-model
+sh ~/.codex/skills/cutroom/scripts/cutroom repair --no-model
+sh ~/.codex/skills/cutroom/scripts/cutroom uninstall --dry-run
+```
+
+See [setup and maintenance](skills/cutroom/references/setup.md) for official repository updates, checked local packages,
+custom runtime locations, project installs, and removal that preserves profiles and projects.
 
 ## Use
 
@@ -70,6 +84,30 @@ The first run interviews you. After that, a typical edit goes:
 
 Change your style any time: "change my caption style", "stop using music", "my accent colour is now #00C2FF".
 
+## Graphics and layouts
+
+Reusable hooks, counters, checklists, comparisons, product cards, information cards and labels inherit your profile's
+colors and fonts. They share the deterministic motion engine and can be customized for each spoken beat.
+Format-aware layout recipes cover talking heads, tutorials and two speakers in all four aspect ratios.
+
+The [visual gallery](skills/cutroom/examples/gallery/README.md) includes rendered examples, source and an offline
+generator. See the [component API](skills/cutroom/references/components.md) and [layout guide](skills/cutroom/references/layouts.md).
+
+## Faster revisions
+
+After the transcript and cut are approved, the build command tracks completed work and reuses unchanged outputs:
+
+```sh
+sh ~/.codex/skills/cutroom/scripts/cutroom status --project videos/example
+sh ~/.codex/skills/cutroom/scripts/cutroom build --project videos/example --draft
+sh ~/.codex/skills/cutroom/scripts/cutroom build --project videos/example
+```
+
+Caption and graphic changes reuse the cut and audio. Music and sound-effect changes reuse the rendered picture.
+Cut revisions remap word timings while retaining confirmed text corrections. Unchanged transcription inputs reuse
+their transcript. Interrupted builds resume from successful stages. The [build guide](skills/cutroom/references/build.md)
+describes status, force rebuilds, manual commands and draft/final outputs.
+
 ## Your style profile
 
 `~/.cutroom/style.md` is a plain Markdown file with a JSON settings block. Read it, edit it, share it, or keep one per
@@ -83,7 +121,9 @@ install.sh                    one-command setup for Claude Code + Codex
 skills/cutroom/SKILL.md       the workflow the agent follows
 skills/cutroom/references/    onboarding interview, reference study, editing, graphics, review
 skills/cutroom/engine/        the frame-exact motion engine (runtime.js) + film template
-skills/cutroom/scripts/       probe, transcribe, plan_cuts, cut, sync, sfx, mix, render, review, reference, fonts, profile, doctor
+skills/cutroom/examples/      runnable graphics gallery and rendered visual references
+skills/cutroom/setup/         bundled installer, pinned dependencies, version and lifecycle manager
+skills/cutroom/scripts/       editing scripts, incremental build/status, setup/maintenance and diagnostics
 skills/cutroom/templates/     the style profile template
 ```
 

@@ -1,0 +1,19 @@
+{
+  "name": "cutroom",
+  "version": "0.2.0",
+  "setup_schema": 1,
+  "python_min": [
+    3,
+    10
+  ],
+  "python_max_exclusive": [
+    3,
+    14
+  ],
+  "node_min": 20,
+  "node_max_exclusive": 25,
+  "ffmpeg_min": 6,
+  "pip": "25.3",
+  "model": "large-v3-turbo",
+  "repository": "https://github.com/statiiiix/cutroom"
+}
