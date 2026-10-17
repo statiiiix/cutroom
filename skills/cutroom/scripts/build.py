@@ -115,7 +115,7 @@ class Build:
             visual = {k: v for k, v in p.items() if k not in ('mix', 'sfx', 'voice', 'profile', 'audio')}
             film = self.tree('film', exclude=('data.js',))
             source = '\n'.join(f.read_text(errors='replace') for f in (self.root / 'film').glob('*.js')
-                               if f.name not in ('data.js', 'runtime.js', 'components.js', 'layouts.js'))
+                               if f.name not in ('data.js', 'runtime.js', 'layouts.js'))
             sound_reactive = any(token in source for token in ('SFX', '.sfx', '["sfx"]', "['sfx']"))
             value = [visual, self.file('edit/words.json'), film, self.tree('assets'), self.draft,
                      p.get('sfx') if sound_reactive else None, self.code('render.mjs')]

@@ -40,6 +40,9 @@ $PY $SKILL/scripts/profile.py find --project <project dir>
   the user's past corrections. Tell the user in one line which profile you're using.
 - **Reference creators or videos** (asked during onboarding, or offered any time): study them with
   [references/reference-study.md](references/reference-study.md). Take their editing grammar, never their content.
+- **User requests a named saved style:** read [references/saved-styles.md](references/saved-styles.md) before
+  scaffolding with `--style`. Read the resulting `docs/style-settings.json` and direction notes for this project's
+  cut, graphics, captions and sound choices. Keep the current brief and profile feedback constraints in force.
 
 ## 2. Intake (per video, one question round at most)
 
@@ -92,10 +95,10 @@ row per beat with the time range, the words spoken, what appears on screen, and 
 - products get their own colours and logos (`graphics.productColors`)
 - the user's accent stays the one accent everywhere else
 
-Choose a composition from [references/layouts.md](references/layouts.md) for the output format and footage type.
-Read the [component guide](references/components.md) and inspect the bundled [visual gallery](examples/gallery/README.md)
-before inventing a graphic already covered there. Components inherit the profile; adapt the content and composition
-to the shotlist rather than copying the gallery's palette or timing.
+Design each graphic for this video's content; use [references/layouts.md](references/layouts.md) for format geometry.
+If the user requested a named saved style, follow [references/saved-styles.md](references/saved-styles.md), read its
+direction and reference frames before planning, and pass `--style "<name>"` when scaffolding. Adapt its visual language
+to the new footage and words. If no saved style was requested, use the normal profile.
 
 If the profile says `approveShotlist: true`, send a compact numbered summary and wait for an OK. Otherwise build
 straight away and mention the plan in one line.
@@ -134,6 +137,10 @@ Before you start, tell the user roughly how long the render takes (about 4–10 
 30 fps). Deliver `renders/final.mp4` with its length, loudness and one line on what you'd still improve.
 For revisions, use the same build command: unchanged stages are skipped and sound-only changes reuse the picture.
 Read [references/build.md](references/build.md) for status, resuming, cut revisions and the manual renderer commands.
+
+When the user approves an edit they like, offer once: "Would you like to save this editing style for future videos?"
+Save a named style only after they say yes, following [references/saved-styles.md](references/saved-styles.md).
+This does not change their profile, onboarding or the feedback-learning behavior below.
 
 ## 9. Learn (the step that makes cutroom theirs)
 

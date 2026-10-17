@@ -84,14 +84,18 @@ The first run interviews you. After that, a typical edit goes:
 
 Change your style any time: "change my caption style", "stop using music", "my accent colour is now #00C2FF".
 
-## Graphics and layouts
+## Save an editing style you like
 
-Reusable hooks, counters, checklists, comparisons, product cards, information cards and labels inherit your profile's
-colors and fonts. They share the deterministic motion engine and can be customized for each spoken beat.
-Format-aware layout recipes cover talking heads, tutorials and two speakers in all four aspect ratios.
+When you approve an edit, cutroom can ask whether you want to save its editing style. Say yes and give it a name,
+such as “Clean explainer.” It saves creative notes, typography, colors, caption treatment, pacing, sound settings
+and optional approved reference frames. Your onboarding and profile memory continue as before.
 
-The [visual gallery](skills/cutroom/examples/gallery/README.md) includes rendered examples, source and an offline
-generator. See the [component API](skills/cutroom/references/components.md) and [layout guide](skills/cutroom/references/layouts.md).
+For a later video, say “Use my Clean explainer style.” Cutroom studies that direction and designs graphics for the
+new video's footage and words. Saving a style is optional and does not set a new default.
+
+See [saved styles](skills/cutroom/references/saved-styles.md) for capture and selection commands. The
+[layout guide](skills/cutroom/references/layouts.md) supplies geometry for talking heads, tutorials and two speakers
+across all four aspect ratios; each scene's design is created for its own video.
 
 ## Faster revisions
 
@@ -121,7 +125,6 @@ install.sh                    one-command setup for Claude Code + Codex
 skills/cutroom/SKILL.md       the workflow the agent follows
 skills/cutroom/references/    onboarding interview, reference study, editing, graphics, review
 skills/cutroom/engine/        the frame-exact motion engine (runtime.js) + film template
-skills/cutroom/examples/      runnable graphics gallery and rendered visual references
 skills/cutroom/setup/         bundled installer, pinned dependencies, version and lifecycle manager
 skills/cutroom/scripts/       editing scripts, incremental build/status, setup/maintenance and diagnostics
 skills/cutroom/templates/     the style profile template

@@ -33,7 +33,7 @@ SKILL = SETUP.parent
 VERSION = json.loads((SETUP / 'version.json').read_text())
 MARKER = '.cutroom-install.json'
 STATE = '.cutroom-runtime.json'
-PROTECTED = {'projects', 'profiles', '.cutroom', 'style.md', 'memory'}
+PROTECTED = {'projects', 'profiles', 'styles', '.cutroom', 'style.md', 'memory'}
 MAX_ARCHIVE = 64 * 1024 * 1024
 MAX_EXPANDED = 128 * 1024 * 1024
 
@@ -226,7 +226,7 @@ def doctor(home, as_json=False, source=SKILL):
     checks = system_checks()
     required_files = ['scripts/cut.py', 'scripts/mix.py', 'scripts/sfx.py', 'scripts/transcribe.py',
                       'scripts/render.mjs', 'scripts/build.py', 'scripts/new_project.py',
-                      'engine/runtime.js', 'engine/layouts.js', 'engine/components.js', 'engine/index.html']
+                      'engine/runtime.js', 'engine/layouts.js', 'engine/index.html', 'scripts/styles.py']
     missing_files = [name for name in required_files if not (source / name).is_file()]
     checks.append({'name': 'Skill editing files', 'status': 'fail' if missing_files else 'ok',
                    'detail': ', '.join(missing_files) if missing_files else 'available',

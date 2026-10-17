@@ -65,7 +65,7 @@ clearing build state; removing only `build.json` makes the next build start fres
 Use `--to cut`, `--to sync`, `--to sfx`, `--to mix`, or `--to picture` to stop after that stage. `--force` rebuilds
 all applicable stages through the target. Manual script changes are detected from their resulting files.
 Projects with no footage can omit `edit/cuts.json` and set `clips: []`; set `audio: false` for intentionally silent
-graphics. This is how the bundled [gallery](../examples/gallery/README.md) renders without source media.
+graphics. Custom graphics-only projects can therefore render without source media.
 
 ## Renderer interoperability
 

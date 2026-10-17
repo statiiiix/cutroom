@@ -6,17 +6,15 @@
 const L = R.layout.recipe('talking-head');
 // Pixel rectangles for this project's format:
 L.media; L.face; L.graphic; L.caption; L.safe; L.content;
-const graphic = R.components.info(root, {
-  rect: L.graphic, title: 'Keep the point clear.',
-  timing: {from: 2, to: 4.7},
-});
+// Design a custom scene in this region with R.make/R.line/R.rise/R.set.
+const region = L.graphic;
 // Captions may use the suggested band when approved:
 cap.run(t, {y: L.caption.y});
 ```
 
 ## Geometry
 
-`recipe(name, options)` returns `canvas`, `safe`, `content`, `caption`, `graphic`, `gap`, `wide`, `format` and recipe-specific rectangles. Every rectangle is `{x,y,w,h}` in pixels, ready for a component. `content` ends one gap above the caption band. Set `captions:false` to use the whole safe region for a silent/full-screen graphic. `safe` and `caption` overrides are normalized fractions of the canvas; `gap` is pixels.
+`recipe(name, options)` returns `canvas`, `safe`, `content`, `caption`, `graphic`, `gap`, `wide`, `format` and recipe-specific rectangles. Every rectangle is `{x,y,w,h}` in pixels for positioning a custom scene. `content` ends one gap above the caption band. Set `captions:false` to use the whole safe region for a silent/full-screen graphic. `safe` and `caption` overrides are normalized fractions of the canvas; `gap` is pixels.
 
 | Format | Canvas | Safe area `(x,y,w,h)` | Caption band `(x,y,w,h)` |
 |---|---|---|---|
@@ -61,6 +59,8 @@ const cards = R.layout.grid(L.content, {columns: L.wide ? 2 : 1,
 const note = R.layout.rect([0, .7, 1, .3], cards[0]);
 ```
 
-## Visual reference
+## Creative direction
 
-The [gallery source](../examples/gallery/film.js) uses the same eight beats in all four formats. Its last three beats isolate each layout without required footage. See [all format overviews](../examples/gallery/README.md#formats) and the [explanations and portrait stills](../examples/gallery/README.md#the-eight-beats). Generate local projects with `python3 skills/cutroom/examples/gallery/create.py /tmp/cutroom-gallery --format all`, then render and inspect the actual output.
+These helpers calculate usable regions; they do not prescribe a graphic design. When the user chooses a
+[saved style](saved-styles.md), study its approved frames, then compose new scenes for the current video.
+Use the profile's own fonts, colors, caption position and feedback when no named style was requested.
