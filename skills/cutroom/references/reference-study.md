@@ -25,7 +25,7 @@ layouts that identify that creator.
 | Hook | what happens in the first 1–3 s: text slam, question, visual surprise, a cold open mid-sentence? |
 | Captions | font feel (geometric / grotesk / rounded / serif), weight, case, size relative to the frame, words per line, active-word treatment (colour / box / scale / none), position, stroke or shadow, emoji |
 | Graphics | types (big numbers, UI mockups, screenshots, stickers, arrows, B-roll, split screens), how often, where they sit (chest band, full screen, corners), their enter/exit motion |
-| Colour | palette and accent usage (map it onto the USER's colours; don't adopt theirs unless the user asks) |
+| Colour | colour strategy (restrained / committed / full / drenched) and accent dosage. Take the strategy, never their palette: this video's hues come from the look step ([look.md](look.md)) |
 | Sound | music or not, SFX density, whooshes on cuts, risers into reveals (listen if you can; otherwise infer from cut rhythm) |
 | Ending | CTA style, loop back to the start, end card or hard stop |
 

@@ -1,5 +1,9 @@
 # Graphics: engine, motion rules, patterns
 
+The house rules for motion (render contract, springs, enters and exits, swaps, type, depth, banned list, critique)
+live in [motion-blueprint.md](motion-blueprint.md); colours and fonts come from the video's look
+([look.md](look.md)). This file is the engine reference and the pattern library.
+
 ## Contents
 1. How the film works
 2. Engine API (`window.R`)
@@ -32,6 +36,9 @@ Times are **seconds in the cut** (from `edit/words.json`). Time graphics to the 
 | `R.spring(t, at, preset)` | 0→1 spring released at `at` (exits, things without a sound) |
 | `R.track(t, [[t0, v0], [t1, v1, preset], …])` / `R.trackXY` | a value with several targets: each change is its own spring and keeps momentum. Use it for camera zoom, cursor paths and counters that retarget |
 | `R.between(t, tIn, tOut)` | 1 inside the window, with spring edges |
+| `R.indicator(t, [[t0, start, end], [t1, start, end], …])` → `{start, end, size, center}` | an underline, selection or tab bar moving between stops: the leading edge is stiffer, so it stretches and settles |
+| `R.swapAlpha(t, tIn, tOut)` | alpha for text inside a box that morphs at `tIn` and again at `tOut`: never visible while the box changes shape |
+| `R.inset(top, right, bottom, left, radius)` | a `clip` value for wipes and reveals (`R.set(el, {clip: R.inset(…)})`) |
 | `R.pop(t, el, tIn, tOut, {dy, s0, preset, x, y})` | the standard card enter (rise + scale, opacity only rides along) and exit (lift + shrink) |
 | `R.line(parent, text, {x, y, size, width, align, color, accent:[i], weight, font})` → `R.rise(t, L, times, tOut)` | masked kinetic type: words rise through a mask on their own times and lift out |
 | `R.typeText(t, el, text, t0, t1)` | typewriter |
@@ -40,7 +47,9 @@ Times are **seconds in the cut** (from `edit/words.json`). Time graphics to the 
 | `R.before.push(fn)`, `R.after.push(fn)` | per-frame hooks (camera, captions) |
 | `R.fonts.push('700 100px Display')` | fonts awaited before frame 0 |
 
-CSS variables from the profile: `--text --ink --muted --accent --card --panel --line --display --ui --mono`.
+CSS variables from the video's look (`look.py apply`): `--text --ink --muted --accent --accent-2 --accent-3 --card
+--panel --field --line --display --ui --mono`. `--accent-2/3` and `--field` fall back to the accent and the panel
+when the strategy doesn't use them. Never hard-code a hex in `film.js` except a product's own colours.
 The `.c` class means absolutely positioned with a centre transform origin, and `.pill` is a rounded flex row.
 
 Spring presets: `snap` for chips, buttons and leading edges (tiny overshoot); `smooth` for cards, panels and the camera;
@@ -48,6 +57,7 @@ Spring presets: `snap` for chips, buttons and leading edges (tiny overshoot); `s
 
 ## 3. Motion rules
 
+The short version; [motion-blueprint.md](motion-blueprint.md) has the full rules and wins where they differ.
 These exist because they're what separates "edited" from "template":
 - **Springs for everything that enters, exits or retargets.** No CSS transitions, `setTimeout`, `requestAnimationFrame`
   or `Math.random` (they break the frame-exact render). Linear progress only for typing, counters and slow pushes.
@@ -74,9 +84,11 @@ These exist because they're what separates "edited" from "template":
   hide them (`hidden`) while a graphic shows the same words in big type.
 - **Contrast.** On busy footage, cards are solid (white `--card` or dark `--panel`) with a soft shadow, and white
   text gets a shadow. Pick white or dark caption text based on what's behind it.
-- **Colour.** The user's accent for emphasis (key words, the number that matters, the active state). A product's own
-  colours and logo when that product is on screen. Never redraw a real product's UI badly: if you mock it up, use
-  its real colours, icons and type, and keep it simple.
+- **Colour.** The video's look, at the dosage its strategy sets ([look.md](look.md)): restrained keeps the accent
+  rare (key word, the number that matters, the active state); committed lets `--field` own whole regions; full
+  palette gives each role one meaning for the whole video. A product's own colours and logo when that product is
+  on screen. Never redraw a real product's UI badly: if you mock it up, use its real colours, icons and type, and
+  keep it simple.
 
 ## 5. Patterns that work on talking heads
 

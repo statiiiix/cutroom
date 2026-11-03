@@ -19,7 +19,8 @@ next video starts closer to right.
 | Cuts | Orders the clips, trims dead heads and tails, tightens pauses, removes retakes and false starts, punches in on jump cuts |
 | Fixes the footage | Leaves SDR untouched; tone-maps iPhone HDR so skin looks natural |
 | Cleans the voice | Denoise, de-mud, presence, de-ess and compression, then −14 LUFS |
-| Motion graphics | Captions in your style, kinetic type, counters, checklists, UI mockups, split layouts, all on springs and timed to your words |
+| Picks a look per video | Colours and fonts chosen for each video's subject and footage, checked for contrast and against your recent videos, so edits don't all come out in the same fonts and palette. Your locked brand colours and fonts stay |
+| Motion graphics | Captions in your style, kinetic type, counters, checklists, UI mockups, split layouts, all on springs and timed to your words, built to a strict motion blueprint (no fades as transitions, no double exposures, no glow) |
 | Sound | Synthesized whooshes, pops and clicks (only the ones you like), optional ducked music |
 | Reviews itself | Contact sheets at phone size, safe-zone checks and a scoring loop, before you see anything |
 | Renders | H.264 MP4 at 9:16, 16:9, 1:1 or 4:5 |
@@ -66,7 +67,8 @@ The first run interviews you. After that, a typical edit goes:
 2. it shows a short shotlist of the graphics, if you asked to approve those
 3. it reviews its own draft, then renders `renders/final.mp4`
 
-Change your style any time: "change my caption style", "stop using music", "my accent colour is now #00C2FF".
+Change your style any time: "change my caption style", "stop using music", "my accent colour is now #00C2FF",
+"never use that font again", "keep this look for every video".
 
 ## Your style profile
 
@@ -79,9 +81,10 @@ made.
 ```
 install.sh                    one-command setup for Claude Code + Codex
 skills/cutroom/SKILL.md       the workflow the agent follows
-skills/cutroom/references/    onboarding interview, reference study, editing, graphics, review
+skills/cutroom/references/    onboarding interview, reference study, editing, motion blueprint, look (colour + type), graphics, review
 skills/cutroom/engine/        the frame-exact motion engine (runtime.js) + film template
-skills/cutroom/scripts/       probe, transcribe, plan_cuts, cut, sync, sfx, mix, render, review, reference, fonts, profile, doctor
+skills/cutroom/scripts/       probe, transcribe, plan_cuts, cut, look, sync, sfx, mix, render, review, reference, fonts, profile, doctor
+skills/cutroom/scripts/data/  the curated font pool (with the overused "reflex" faces look.py never deals)
 skills/cutroom/templates/     the style profile template
 ```
 

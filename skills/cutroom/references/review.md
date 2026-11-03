@@ -17,10 +17,18 @@ The user should only ever see a cut you already watched and scored. Everything i
 | Readability at phone size | every word readable at 360 px wide; nothing in the safe-zone red; captions never collide with graphics |
 | Motion | springs, clean swaps, no double exposure, no pure fades, punch-ins that feel motivated |
 | Variety and pacing | something new every 2–4 s (or the profile's rate), no pattern three times in a row, no dead air |
-| Style match | the profile's colours, fonts, caption style, density and sound palette; the feedback log respected |
+| Style match | the profile's locked colours, fonts, caption style, density and sound palette; the feedback log respected; and a look of its own: this video's `look.json` used consistently, no repeat of a recent video, no reflex face without a reason |
 | Sound | voice clear, SFX on visual events only, allowed types only, −14 LUFS, no clipping |
 
-5. Fix the 3 worst problems, verify each fix with a still, and log the round in `docs/review_log.md` (scores + fixes).
+5. Check the 16 failure modes in [motion-blueprint.md](motion-blueprint.md) §11 one by one (frame 0, late reads,
+   double exposure at swaps, leaks, blank handoff frames, banned looks…).
+6. Fix the 3 worst problems, verify each fix with a still, and log the round in `docs/review_log.md` (scores + fixes).
+
+**Who scores.** With a subagent tool, spawn a fresh critic for steps 4–5 that did not write `film.js`: give it the
+project path, the round number, this file and the blueprint. It judges only the pixels and the sound, never the
+code or intentions, and appends the round to `docs/review_log.md`. Without one, score in that voice yourself:
+evidence first, no defending the code. A problem from last round that is still visible can't score higher than
+last round.
 
 ## When to stop
 

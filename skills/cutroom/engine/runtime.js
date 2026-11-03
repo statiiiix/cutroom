@@ -75,6 +75,25 @@
   }
   /** 1 between tIn and tOut with spring edges */
   const between = (t, tIn, tOut, pIn = 'snap', pOut = 'snap') => hit(t, tIn, pIn) - (tOut == null ? 0 : spring(t, tOut, pOut));
+  /** a bar / underline / selection moving between stops [[t, start, end], ...]: the leading edge rides a stiffer spring
+   *  than the trailing one, so it stretches mid-move and settles back. → {start, end, size, center} */
+  function indicator(t, stops, lead = 'snap', trail = 'smooth') {
+    let s = stops[0][1], e = stops[0][2];
+    for (let i = 1; i < stops.length; i++) {
+      const [ti, si, ei] = stops[i], ds = si - stops[i - 1][1], de = ei - stops[i - 1][2], dc = ds + de;
+      s += ds * step(t - ti, dc <= 0 ? lead : trail);
+      e += de * step(t - ti, dc >= 0 ? lead : trail);
+    }
+    return { start: s, end: e, size: e - s, center: (s + e) / 2 };
+  }
+  /** alpha for text inside a box that morphs at tIn and again at tOut: in just after the morph starts, gone before the next */
+  function swapAlpha(t, tIn, tOut = Infinity, p = 'snap', delay = 0.06) {
+    const k = 'sw' + (typeof p === 'string' ? p : JSON.stringify(p));
+    if (!(k in halfCache)) { let x = 0; for (let y = 0; y < 2; y += 0.002) if (Math.abs(1 - step(y, p)) >= 0.005) x = y; halfCache[k] = x; }
+    return clamp(step(t - (tIn + delay), p) - step(t - (tOut - halfCache[k]), p));
+  }
+  /** clip-path inset in px (wipes and reveals): inset(top, right, bottom, left, radius) */
+  const inset = (t0, r, b, l, rad = 0) => `inset(${t0.toFixed(1)}px ${r.toFixed(1)}px ${b.toFixed(1)}px ${l.toFixed(1)}px round ${rad}px)`;
 
   // ------------------------------------------------------------ elements: keep() once, set() per frame
   const stage = document.getElementById('stage');
@@ -306,6 +325,7 @@
 
   window.R = {
     P, W, H, FPS, DUR, stage, clamp, lerp, prog, ease, rng, PRESETS, step, lead, spring, hit, track, trackXY, between,
+    indicator, swapAlpha, inset,
     make, keep, set, commit, scene, before, after, footage, frameFootage, line, rise, typeText, pop, captions, fonts, start,
   };
 })();

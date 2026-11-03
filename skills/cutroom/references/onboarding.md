@@ -26,16 +26,20 @@ so the time isn't wasted.
 
 ## Round 2: the look
 
-1. **Colours.** Ask for their palette as hex codes or plain words ("black, white and a coral #FD9364"). Offer:
-   Black + white + one accent (recommended; ask for the accent) · My brand colours (ask for them) · Match each video
-   · Pick for me (then use near-black #0e0e0e, white, and one saturated accent that suits their footage).
-   Store `colors.text`, `colors.accent`, `colors.ink`, `colors.card` and `colors.panel`. When something can be read two
-   ways (for example "all black and white"), confirm it: it decides every frame.
-2. **Fonts.** One display face for big type and one UI face for captions and cards (they can be the same).
-   Options: Space Grotesk (recommended: modern, techy) · Inter (neutral) · Montserrat / Poppins (bold, creator
-   style) · My own font (ask for the name, or the file if it isn't on Google Fonts).
+1. **Colours.** Do you have brand colours that must appear in every video? Options: My brand colours, every time
+   (ask for the hex codes or plain words; confirm anything that reads two ways, such as "all black and white") ·
+   Just one brand accent, the rest can change per video (recommended for personal brands: ask for the accent) ·
+   No, pick a fitting palette for each video (recommended when they have no brand) → `colors` + `look.lock`
+   (`palette`, `accent`, or nothing). Never fill a colour they didn't give: an empty `colors.accent` means the look
+   step picks one per video ([look.md](look.md)).
+2. **Fonts.** Do you have brand fonts? Options: Yes, always use them (ask for the names, or the files if they aren't
+   on Google Fonts) · Keep one face for captions, vary the display face per video · No, pick fitting fonts for
+   each video (recommended without a brand) → `fonts` + `look.lock` (`fonts`, `ui`, or nothing). Don't offer a list
+   of popular faces (Space Grotesk, Inter, Montserrat, Poppins…): those are exactly the defaults every edit already
+   looks like.
 3. **Product colours.** When a video is about another product (an app, a tool), should its part use that product's
    colours and logo? Yes (recommended) · No, always my palette
+4. **Anything you never want?** (free text, optional) Colours or fonts they dislike → `look.ban`.
 
 ## Round 3: captions and graphics
 
@@ -93,7 +97,8 @@ Fill the JSON block (valid JSON) and every prose section with what they said, in
 show a short summary, for example:
 
 > Saved your style to ~/.cutroom/style.md:
-> 9:16 shorts, 30–60 s · black, white + #FD9364 · Space Grotesk · plain white captions, 3 words, lower third ·
+> 9:16 shorts, 30–60 s · brand accent #FD9364 locked, palette and display face fresh per video · captions in
+> Hanken Grotesk, plain white, 3 words, lower third ·
 > rich graphics every 2–4 s · whooshes only, no music · tight cuts, fillers out · learning from @creator's pacing.
 > Say "change my style" any time.
 

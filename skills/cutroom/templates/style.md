@@ -13,8 +13,9 @@ the user corrects something, so the next video starts closer to right. Edit it b
 {
   "format": "9x16",
   "fps": 30,
-  "colors": { "text": "#ffffff", "accent": "#FD9364", "ink": "#0e0e0e", "card": "#ffffff", "panel": "#0e0e0e", "muted": "#9a9a9a" },
-  "fonts": { "display": "Space Grotesk", "ui": "Space Grotesk" },
+  "colors": { "text": "#ffffff", "accent": "", "ink": "#0e0e0e", "card": "#ffffff", "panel": "#0e0e0e", "muted": "#9a9a9a" },
+  "fonts": { "display": "", "ui": "" },
+  "look": { "lock": [], "avoidRecent": 5, "ban": [] },
   "captions": { "mode": "plain", "maxWords": 3, "maxChars": 18, "size": 66, "weight": 600, "color": "#ffffff",
                 "case": "none", "position": 0.745, "shadow": true, "stroke": 0, "accentKeywords": true },
   "cut": { "maxPause": 0.35, "keepPause": 0.16, "head": 0.08, "tail": 0.22, "removeFillers": false, "punchIns": true },
@@ -32,6 +33,10 @@ the user corrects something, so the next video starts closer to right. Edit it b
 - Typical length:
 
 ## Look
+
+`look.lock` says what stays the same in every video (any of `fonts`, `display`, `ui`, `accent`, `palette`,
+`captions`). Everything else is chosen per video by the look step (references/look.md) and never repeats the last
+`avoidRecent` videos. `look.ban` lists faces and colours never to use. Empty `colors.accent` or `fonts` = chosen per video.
 
 - Colours and when to use each:
 - Fonts:

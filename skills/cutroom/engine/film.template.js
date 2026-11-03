@@ -16,10 +16,11 @@
   });
 
   // ---------------------------------------------------------------- example: a hook lockup
+  // left-aligned at x >= 120 in the chest band, word 0 released before frame 0 so frame 0 already reads (motion-blueprint.md)
   scene({
     name: 'hook', from: 0, to: 2.5,
     build(root, S2) {
-      S2.title = line(root, 'Your hook here', { x: 0, y: H * 0.5, width: W, align: 'center', size: 110, accent: [1] });
+      S2.title = line(root, 'Your hook here', { x: 120, y: H * 0.5, width: W - 240, size: 130, accent: [1] });
     },
     run(t, S2) { rise(t, S2.title, [-0.3, 0.2, 0.4], 2.2); },
   });

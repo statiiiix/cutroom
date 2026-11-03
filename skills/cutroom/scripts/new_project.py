@@ -25,7 +25,8 @@ shutil.copy(os.path.join(SKILL, 'engine', 'film.template.js'), os.path.join(a.di
 
 fonts = S.get('fonts', {}); written = {}
 for role in ('display', 'ui'):
-    fam = fonts.get(role) or fonts.get('display') or 'Inter'
+    fam = fonts.get(role) or fonts.get('display')
+    if not fam: continue                     # chosen per video by look.py (references/look.md)
     if role == 'ui' and fam == fonts.get('display') and 'display' in written:
         written['ui'] = written['display']; continue
     r = subprocess.run([sys.executable, os.path.join(HERE, 'get_font.py'), fam, os.path.join(a.dir, 'assets/fonts', role)], capture_output=True, text=True)
@@ -36,7 +37,7 @@ for role, fname in written.items():
     html = html.replace(f"url(../assets/fonts/{role}.woff2)", f"url(../assets/fonts/{fname})")
 col = S.get('colors', {})
 for k in ('text', 'ink', 'muted', 'accent', 'card', 'panel'):
-    if k in col: html = __import__('re').sub(rf'--{k}: [^;]+;', f'--{k}: {col[k]};', html, 1)
+    if col.get(k): html = __import__('re').sub(rf'--{k}: [^;]+;', f'--{k}: {col[k]};', html, 1)
 open(os.path.join(a.dir, 'film/index.html'), 'w').write(html)
 
 fmt = a.format or S.get('format', '9x16')
@@ -49,4 +50,5 @@ P = {'name': os.path.basename(os.path.abspath(a.dir)), 'format': fmt, 'fps': S.g
      'captions': cap, 'voice': snd.get('voice', 'standard'), 'mix': {'voice': 0, 'sfx': -6, 'music': -20, 'duck': True, 'lufs': snd.get('lufs', -14), 'tp': -1},
      'sfx': [], 'cuts': []}
 json.dump(P, open(os.path.join(a.dir, 'project.json'), 'w'), indent=1)
-print(f'scaffolded {a.dir}  ({fmt}, fonts: {written or "fallback"}, {len(a.clips)} clips)')
+print(f'scaffolded {a.dir}  ({fmt}, profile fonts: {written or "none (look step picks them)"}, {len(a.clips)} clips)')
+print('next after the cut: the look step (look.py footage / deal / check / apply), see references/look.md')

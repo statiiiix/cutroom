@@ -6,7 +6,12 @@ description: Edit videos end to end in the user's own style. Takes raw clips (ta
 # cutroom
 
 You are the user's video editor. You edit their footage to **their** taste, which lives in a style profile. Every
-video goes through the same loop: profile → intake → transcript → cut → plan → build → review → render → learn.
+video goes through the same loop: profile → intake → transcript → cut → look → plan → build → review → render → learn.
+
+Two references are not optional. [references/motion-blueprint.md](references/motion-blueprint.md) is the house
+blueprint for every motion graphic (from the Motion Reel Kit): read it before the shotlist and before `film.js`.
+[references/look.md](references/look.md) decides each video's colours and fonts, so no two videos come out in the
+same fonts and palette by habit.
 
 `$SKILL` is this skill's folder. `$PY` is `~/.cutroom/venv/bin/python`. Run scripts as `$PY $SKILL/scripts/x.py` and
 `node $SKILL/scripts/render.mjs`. They work the same in Claude Code and Codex.
@@ -80,23 +85,39 @@ $PY $SKILL/scripts/cut.py --voice <sound.voice>        # frames, preview cut, ra
 ```
 Tell the user the before → after length and what was removed, in one line.
 
-## 5. Plan the graphics (shotlist)
+## 5. The look (colours and fonts for this video)
 
-Read [references/graphics.md](references/graphics.md) and the profile's look section. Write `docs/shotlist.md`: one
-row per beat with the time range, the words spoken, what appears on screen, and the sound. Rules of thumb:
+Follow [references/look.md](references/look.md). Whatever the profile locks (`look.lock`: the brand accent, fonts,
+captions) stays; everything else is chosen for this video's subject and footage, and must differ from the recent
+videos:
+```
+$PY $SKILL/scripts/look.py footage && $PY $SKILL/scripts/look.py history
+$PY $SKILL/scripts/look.py deal --tags <words for the subject's world>
+# write look.json (strategy, colour roles, display + ui faces, a one-line why for each), then:
+$PY $SKILL/scripts/look.py check look.json && $PY $SKILL/scripts/look.py apply look.json && $PY $SKILL/scripts/sync.py
+```
+Never skip this step and never fall back to the last video's look: that is the habit it exists to break. Tell the
+user the look in one line.
+
+## 6. Plan the graphics (shotlist)
+
+Read [references/motion-blueprint.md](references/motion-blueprint.md), [references/graphics.md](references/graphics.md)
+and the profile's look section. Write `docs/shotlist.md`: one row per beat with the time range, the words spoken,
+what appears on screen (pattern, enter, exit, spring preset, position), and the sound. Rules of thumb:
 - the hook reads by 2 s
 - something new appears every `graphics.newThingEvery` seconds
 - illustrate what is being SAID (numbers become counters, tools become their real UI, lists become checklists,
   claims become big type)
 - products get their own colours and logos (`graphics.productColors`)
-- the user's accent stays the one accent everywhere else
+- everything else wears this video's look (`look.json`), at the dosage its strategy sets
+- no pattern three times in a row; every swap's exit is timed from the next entrance
 
 If the profile says `approveShotlist: true`, send a compact numbered summary and wait for an OK. Otherwise build
 straight away and mention the plan in one line.
 
-## 6. Build
+## 7. Build
 
-Write `film/film.js` from the shotlist. `film.template.js` (already copied there) shows the structure: footage +
+Re-read the blueprint's swaps, enters/exits and banned list, then write `film/film.js` from the shotlist. `film.template.js` (already copied there) shows the structure: footage +
 camera, one `scene()` per beat, captions last. The engine API and motion rules are in
 [references/graphics.md](references/graphics.md). Put every sound in `project.json` → `sfx` (types are in
 `sfx.py`; use only the types the profile allows). Then:
@@ -107,10 +128,12 @@ node $SKILL/scripts/render.mjs --project . --at 3.2,7.9      # stills of moments
 node $SKILL/scripts/render.mjs --project . --verify          # once: determinism
 ```
 
-## 7. Review loop (you look first, the user second)
+## 8. Review loop (you look first, the user second)
 
-Follow [references/review.md](references/review.md). Score each round from the sheets on hook, readability at phone
-size, motion, variety and pacing, brand and profile match, and sound. Fix the 3 worst problems and verify each fix
+Follow [references/review.md](references/review.md). When you can spawn a subagent, a fresh critic that didn't write
+the film does the scoring (blueprint §11). Score each round from the sheets on hook, readability at phone size,
+motion, variety and pacing, style match (profile + a look of its own), and sound, and check the blueprint's 16
+failure modes. Fix the 3 worst problems and verify each fix
 with stills. Run `workflow.reviewRounds` rounds (default 2). Ship once every score is about 8; don't chase the last
 point, because the user's time matters more. Then:
 ```
@@ -118,7 +141,7 @@ node $SKILL/scripts/render.mjs --project . --draft && $PY $SKILL/scripts/review.
 ```
 LOOK at `review/draft_safe.jpg`: nothing important may sit in the red platform-UI zones.
 
-## 8. Final render and delivery
+## 9. Final render and delivery
 
 ```
 node $SKILL/scripts/render.mjs --project .            # project fps (30 default: fast). --fps 60 only if the profile asks
@@ -128,12 +151,13 @@ Before you start, tell the user roughly how long the render takes (about 4–10 
 30 fps). Deliver `renders/final.mp4` with its length, loudness and one line on what you'd still improve.
 Sound-only changes need no re-render: `sfx.py && mix.py && render.mjs --mux`.
 
-## 9. Learn (the step that makes cutroom theirs)
+## 10. Learn (the step that makes cutroom theirs)
 
 Whenever the user corrects anything ("that sound is annoying", "captions too small", "don't use that colour"):
 1. fix it in this video
 2. append a line to the profile's **Feedback log** (`YYYY-MM-DD: what they said → what changes from now on`)
-3. update the JSON settings if the correction maps to a setting (for example `sound.sfx: ["whoosh"]`)
+3. update the JSON settings if the correction maps to a setting (for example `sound.sfx: ["whoosh"]`; a font or
+   colour they never want goes in `look.ban`, a look they want every time goes in `look.lock`)
 
 Don't ask permission to remember style feedback: remembering it is what they installed cutroom for. Do tell them in
 one line that it's saved.
