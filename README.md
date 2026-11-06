@@ -3,8 +3,8 @@
 ![cutroom — Your footage. Your style.](assets/banner.png)
 
 **Turn Claude Code and Codex into your video editor.** Drop in raw clips and say "edit these". cutroom transcribes
-them, cuts the dead ends and long pauses, cleans your voice, and adds captions, motion graphics, punch-ins and sound
-effects in **your** style. It renders a ready-to-post MP4.
+them, cuts the dead ends and long pauses, cleans your voice, and adds captions, punch-ins, sound effects and **motion
+graphics that explain what you're saying**, all in **your** style. It renders a ready-to-post MP4.
 
 The first time, it interviews you about your editing style: colours, fonts, captions, graphics, sound, pacing, and
 the creators whose editing you love. It saves your answers as a style profile. After that it never asks again; it
@@ -21,10 +21,30 @@ next video starts closer to right.
 | Cuts | Orders the clips, trims dead heads and tails, tightens pauses, removes retakes and false starts, punches in on jump cuts |
 | Fixes the footage | Leaves SDR untouched; tone-maps iPhone HDR so skin looks natural |
 | Cleans the voice | Denoise, de-mud, presence, de-ess and compression, then −14 LUFS |
-| Motion graphics | Captions in your style, kinetic type, counters, checklists, UI mockups, split layouts, all on springs and timed to your words |
+| Explains with motion graphics | Reads your transcript and illustrates each beat: counters, checklists, logos, UI mockups, kinetic type and split layouts, all on springs and timed to your words ([more below](#motion-graphics-that-explain-what-you-say)) |
 | Sound | Synthesized whooshes, pops and clicks (only the ones you like), optional ducked music |
 | Reviews itself | Contact sheets at phone size, safe-zone checks and a scoring loop, before you see anything |
 | Renders | H.264 MP4 at 9:16, 16:9, 1:1 or 4:5 |
+
+## Motion graphics that explain what you say
+
+Captions show your words. The graphics show what you mean. cutroom reads the transcript and picks a graphic for each
+beat, then times it so it lands on the word:
+
+| You say… | It shows |
+|---|---|
+| a number, time or price ("it saves me 3 hours") | a counter that rolls to the value and lands on the word |
+| a list ("cuts, captions and sound") | checklist rows that tick in on each word |
+| a tool, app or brand | its logo and name chip in its own colours, or a small faithful UI panel |
+| a process ("drag it in and it does the rest") | a mini UI scene: a cursor drags a file in, rows tick |
+| a contrast ("instead of hiring an editor") | the old way on a card that gets struck through |
+| a before and after | a split screen with labels and a wipe between them |
+| a bold claim | big kinetic type with the key word in your accent and a punch-in |
+
+The shot re-blocks around the graphic: you slide aside into a split layout, or your footage shrinks into a card to make room. Patterns vary
+so the same one never runs three times in a row. Everything moves on closed-form springs, with no fades as
+transitions and no glow, and is checked on phone-size contact sheets before you see it. Ask for more or fewer any
+time: "add a counter when I say the price", "fewer graphics, more of my face".
 
 ## Install
 
