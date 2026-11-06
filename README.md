@@ -48,44 +48,13 @@ time: "add a counter when I say the price", "fewer graphics, more of my face".
 
 ## Install
 
-Use macOS 13+ or Linux (Windows: use WSL), Python 3.10–3.13, Node.js 20/22/24 with npm,
-and FFmpeg 6+ with H.264/AAC support. Setup checks your machine and installs the private editing runtime.
+Give your AI agent (Claude Code, Codex, Cursor, etc.) this repo link and ask it to install it:
 
-```bash
-git clone https://github.com/statiiiix/cutroom.git
-cd cutroom
-sh install.sh
+```
+Install this skill for me: https://github.com/statiiiix/cutroom
 ```
 
-Add `--install-system-tools` to install missing prerequisites with Homebrew or apt.
-
-It installs:
-- a private Python env at `~/.cutroom/venv` with an exact dependency set for faster-whisper, numpy and yt-dlp
-- the Whisper large-v3-turbo model (about 1.6 GB, once)
-- locked Playwright packages at `~/.cutroom/node` and matching headless Chromium at `~/.cutroom/browsers`
-- the self-contained skill for **Claude Code** (`~/.claude/skills/cutroom`) and **Codex** (`~/.codex/skills/cutroom`)
-
-Options: `--claude` or `--codex` (one agent only), `--project <dir>` (one project only), `--no-model` (download Whisper
-on first use instead). On Linux, `--with-system-deps` installs Chromium's required system libraries.
-Preview the installation without changing anything with `sh install.sh --dry-run`.
-
-Check your setup any time:
-
-```bash
-sh ~/.codex/skills/cutroom/scripts/cutroom doctor
-```
-
-An installed skill carries its own setup tools; the original checkout is not needed for maintenance:
-
-```sh
-sh ~/.codex/skills/cutroom/scripts/cutroom version
-sh ~/.codex/skills/cutroom/scripts/cutroom update --no-model
-sh ~/.codex/skills/cutroom/scripts/cutroom repair --no-model
-sh ~/.codex/skills/cutroom/scripts/cutroom uninstall --dry-run
-```
-
-See [setup and maintenance](skills/cutroom/references/setup.md) for official repository updates, checked local packages,
-custom runtime locations, project installs, and removal that preserves profiles and projects.
+It handles the rest. Prefer to do it yourself? See [setup and maintenance](skills/cutroom/references/setup.md).
 
 ## Use
 
